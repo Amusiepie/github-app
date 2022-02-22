@@ -12,6 +12,7 @@ import Alert from "./components/layout/Alert";
 export default class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false,
     alert: null
   };
@@ -30,6 +31,14 @@ export default class App extends Component {
     const res = await axios.get(
       `https://api.github.com/search/users?q=${text}`
     );
+
+    this.setState({ user: res.data, loading: false });
+  };
+
+  //Get user from state
+  getUser = async (username) => {
+    this.setState({ loading: true });
+    const res = await axios.get(`https://api.github.com/users/${username}`);
 
     this.setState({ users: res.data.items, loading: false });
   };
